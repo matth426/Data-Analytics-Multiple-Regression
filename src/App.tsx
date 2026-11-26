@@ -4,22 +4,25 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
+  Download,
   LayoutGrid,
   Maximize2,
   Minimize2,
   X,
 } from 'lucide-react';
-import { CHAPTERS, SLIDES } from './data/slides';
+import { SLIDES } from './data/slides';
 import { IntroSlides } from './components/slides/IntroSlides';
 import { ManualMathSlides } from './components/slides/ManualMathSlides';
 import { PythonSlides } from './components/slides/PythonSlides';
 import { DiagnosticsSlides } from './components/slides/DiagnosticsSlides';
+import { downloadStandaloneSlidesHtml } from './utils/exportSlidesHtml';
 
 export default function App() {
   const [slideIndex, setSlideIndex] = useState(1);
   const [direction, setDirection] = useState(1);
   const [notesOpen, setNotesOpen] = useState(false);
   const [gridOpen, setGridOpen] = useState(false);
+  const [downloadOpen, setDownloadOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const currentSlide = SLIDES[slideIndex - 1];
@@ -55,6 +58,7 @@ export default function App() {
         setGridOpen((v) => !v);
       } else if (e.key === 'Escape') {
         setGridOpen(false);
+        setDownloadOpen(false);
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -96,57 +100,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen lg:h-screen flex flex-col bg-white text-slate-900 overflow-x-hidden">
-      {/* Top Bar: 3-zone contract, hairline border, neutral + single emerald accent */}
-      <header className="flex items-center justify-between gap-8 px-8 py-4 bg-white border-b border-slate-200 shrink-0">
-        <button
-          type="button"
-          onClick={() => goToSlide(1)}
-          className="text-lg font-display font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0 cursor-pointer hover:text-emerald-700 transition-colors"
-        >
-          IT365 Data Analytics 1
-        </button>
-
-        <nav className="hidden md:flex items-center gap-8 text-base font-medium text-slate-500">
-          {CHAPTERS.map((chap) => {
-            const isActive = currentSlide.chapter === chap.id;
-            return (
-              <button
-                key={chap.id}
-                type="button"
-                onClick={() => goToSlide(chap.startSlide)}
-                className={`whitespace-nowrap shrink-0 pb-0.5 transition-colors cursor-pointer ${
-                  isActive
-                    ? 'text-emerald-700 font-semibold border-b-2 border-emerald-700'
-                    : 'hover:text-slate-900 border-b-2 border-transparent'
-                }`}
-              >
-                {chap.label}
-              </button>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center shrink-0">
-          <button
-            type="button"
-            onClick={toggleFullscreen}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-          >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-            <span>{isFullscreen ? 'Exit Present' : 'Present'}</span>
-          </button>
-        </div>
-      </header>
-
-      {/* Main Slide Stage: generous padding & whitespace */}
+      {/* Main Slide Stage (No top navigation header) */}
       <div className="flex-1 flex overflow-hidden relative bg-white">
-        <main className="flex-1 overflow-y-auto px-6 sm:px-12 py-8 sm:py-10">
+        <main className="flex-1 overflow-y-auto px-6 sm:px-14 py-8 sm:py-12">
           <div className="max-w-7xl mx-auto h-full flex flex-col">
             {slideIndex > 1 && (
-              <div className="flex items-center gap-3 text-sm text-slate-500 mb-4 shrink-0 tabular-nums">
-                <span>Lesson 7</span>
+              <div className="flex items-center gap-3 text-sm text-slate-500 mb-5 shrink-0 tabular-nums">
+                <span>IT365 — Data Analytics 1</span>
                 <span aria-hidden="true">·</span>
-                <span className="text-slate-800 font-medium">{currentSlide.chapterLabel}</span>
+                <span>Lesson 8</span>
                 <span aria-hidden="true">·</span>
                 <span className="font-mono">
                   Slide {String(slideIndex).padStart(2, '0')} / {SLIDES.length}
@@ -208,7 +170,7 @@ export default function App() {
         )}
       </div>
 
-      {/* Bottom Slide Control Bar */}
+      {/* Bottom Presenter Control Bar */}
       <footer className="bg-white border-t border-slate-200 shrink-0">
         <div className="h-0.5 w-full bg-slate-100">
           <div
@@ -218,7 +180,7 @@ export default function App() {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 sm:px-10 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={() => setGridOpen((v) => !v)}
@@ -246,10 +208,59 @@ export default function App() {
               <BookOpen className="w-4 h-4" />
               <span>Notes</span>
             </button>
+
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-sm font-medium text-slate-800 transition-colors whitespace-nowrap cursor-pointer"
+            >
+              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              <span className="hidden sm:inline">{isFullscreen ? 'Exit' : 'Present'}</span>
+            </button>
+
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setDownloadOpen((v) => !v)}
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                  downloadOpen
+                    ? 'border-emerald-700 bg-emerald-700 text-white'
+                    : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-800'
+                }`}
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Download</span>
+              </button>
+
+              {downloadOpen && (
+                <div className="absolute bottom-full left-0 mb-2 w-64 rounded-xl border border-slate-200 bg-white py-1.5 z-40">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      downloadStandaloneSlidesHtml();
+                      setDownloadOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2.5 text-sm text-slate-800 hover:bg-slate-50 transition-colors cursor-pointer"
+                  >
+                    <div className="font-semibold text-slate-900">Offline HTML Slides (.html)</div>
+                    <div className="text-xs text-slate-500 mt-0.5">All 17 Lesson 8 slides, single file</div>
+                  </button>
+                  <a
+                    href="./assets/aistudio/IT365_Lesson_Multiple_Regression_Analysis_8f54a72b.pdf"
+                    download="IT365_Lesson8_Multiple_Regression.pdf"
+                    onClick={() => setDownloadOpen(false)}
+                    className="block w-full text-left px-4 py-2.5 text-sm text-slate-800 hover:bg-slate-50 border-t border-slate-100 transition-colors"
+                  >
+                    <div className="font-semibold text-slate-900">Lecture Slides (.pdf)</div>
+                    <div className="text-xs text-slate-500 mt-0.5">Download original PDF deck</div>
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="hidden md:block text-sm text-slate-500 truncate max-w-md">
-            {currentSlide.title}
+          <div className="hidden lg:block text-xs text-slate-500 truncate max-w-md">
+            AI-generated interactive page · Content &amp; slides by Mattheus Marcus Contreras
           </div>
 
           <div className="flex items-center gap-2.5">
@@ -275,7 +286,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Slide Grid Overview Modal (No glassmorphism, hairline 1px border) */}
+      {/* Slide Grid Overview Modal */}
       {gridOpen && (
         <div
           className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-6"
@@ -288,7 +299,7 @@ export default function App() {
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
               <div>
                 <h3 className="text-xl font-bold text-slate-900">Slide Deck Overview</h3>
-                <p className="text-sm text-slate-500">IT365 — Data Analytics 1 · Lesson 7 (17 slides)</p>
+                <p className="text-sm text-slate-500">IT365 — Data Analytics 1 · Lesson 8 (17 slides)</p>
               </div>
               <button
                 type="button"

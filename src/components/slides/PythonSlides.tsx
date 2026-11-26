@@ -14,9 +14,9 @@ const olsNoIntercept = computeOLS(DEFAULT_DATASET, false);
 export const PythonSlides: React.FC<PythonSlidesProps> = ({ slideIndex }) => {
   const [step11, setStep11] = useState(8);
   const [includeOnes, setIncludeOnes] = useState(true);
+  const [view11, setView11] = useState<'code' | '3d'>('code');
 
   const [showSummary12, setShowSummary12] = useState(true);
-
   const [spotlight13, setSpotlight13] = useState<'coef' | 'tp' | 'r2' | 'f'>('coef');
 
   if (slideIndex === 11) {
@@ -44,32 +44,59 @@ export const PythonSlides: React.FC<PythonSlidesProps> = ({ slideIndex }) => {
       : [0, olsNoIntercept.beta[0], olsNoIntercept.beta[1]];
 
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
         <div className="lg:col-span-4 space-y-6">
           <div className="space-y-2">
             <p className="text-base font-medium text-emerald-700">Python Implementation</p>
             <h2 className="text-4xl font-bold text-slate-900 leading-tight">sklearn and NumPy</h2>
           </div>
 
-          <div className="flex items-center gap-1 p-1 border border-slate-200 rounded-lg bg-slate-50 w-fit">
-            <button
-              type="button"
-              onClick={() => setIncludeOnes(true)}
-              className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
-                includeOnes ? 'bg-emerald-700 text-white' : 'text-slate-600'
-              }`}
-            >
-              With np.ones(4)
-            </button>
-            <button
-              type="button"
-              onClick={() => setIncludeOnes(false)}
-              className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
-                !includeOnes ? 'bg-slate-900 text-white' : 'text-slate-600'
-              }`}
-            >
-              Omit np.ones(4)
-            </button>
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Intercept Option</div>
+            <div className="flex items-center gap-1 p-1 border border-slate-200 rounded-lg bg-slate-50 w-fit">
+              <button
+                type="button"
+                onClick={() => setIncludeOnes(true)}
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
+                  includeOnes ? 'bg-emerald-700 text-white' : 'text-slate-600'
+                }`}
+              >
+                With np.ones(4)
+              </button>
+              <button
+                type="button"
+                onClick={() => setIncludeOnes(false)}
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
+                  !includeOnes ? 'bg-slate-900 text-white' : 'text-slate-600'
+                }`}
+              >
+                Omit np.ones(4)
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="text-sm font-medium text-slate-500">Stage View</div>
+            <div className="flex items-center gap-1 p-1 border border-slate-200 rounded-lg bg-slate-50 w-fit">
+              <button
+                type="button"
+                onClick={() => setView11('code')}
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
+                  view11 === 'code' ? 'bg-emerald-700 text-white' : 'text-slate-600'
+                }`}
+              >
+                Code Stepper
+              </button>
+              <button
+                type="button"
+                onClick={() => setView11('3d')}
+                className={`px-3.5 py-1.5 text-sm font-medium rounded-md cursor-pointer transition-colors ${
+                  view11 === '3d' ? 'bg-emerald-700 text-white' : 'text-slate-600'
+                }`}
+              >
+                3D Plane Impact
+              </button>
+            </div>
           </div>
 
           <DiscussionReveal
@@ -79,57 +106,59 @@ export const PythonSlides: React.FC<PythonSlidesProps> = ({ slideIndex }) => {
           />
         </div>
 
-        <div className="lg:col-span-6 space-y-6">
-          <div className="rounded-xl border border-slate-200 bg-slate-900 text-slate-100 p-5 font-mono text-sm lg:text-base space-y-1.5">
-            <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-800 text-slate-400">
-              <span>Click any line to inspect output</span>
-              <button
-                type="button"
-                onClick={() => setStep11((prev) => (prev >= codeLines.length ? 1 : prev + 1))}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-sm cursor-pointer"
-              >
-                <Play className="w-3.5 h-3.5" />
-                <span>Step Line</span>
-              </button>
-            </div>
-            {codeLines.map((line, idx) => {
-              const active = idx < step11;
-              const isCurrent = idx === step11 - 1;
-              return (
+        <div className="lg:col-span-6">
+          {view11 === 'code' ? (
+            <div className="rounded-xl border border-slate-200 bg-slate-900 text-slate-100 p-6 font-mono text-base space-y-2">
+              <div className="flex items-center justify-between pb-3 mb-2 border-b border-slate-800 text-slate-400 text-sm">
+                <span>Click any line to inspect output</span>
                 <button
-                  key={idx}
                   type="button"
-                  onClick={() => setStep11(idx + 1)}
-                  className={`w-full text-left px-3 py-1.5 rounded transition-colors block cursor-pointer ${
-                    isCurrent
-                      ? 'bg-slate-800 border border-emerald-500'
-                      : active
-                      ? 'hover:bg-slate-800/70 border border-transparent'
-                      : 'opacity-40 hover:opacity-75 border border-transparent'
-                  }`}
+                  onClick={() => setStep11((prev) => (prev >= codeLines.length ? 1 : prev + 1))}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white text-sm cursor-pointer"
                 >
-                  <div className="text-slate-100">
-                    <span className="text-slate-500 mr-3 select-none">{idx + 1}</span>
-                    {line.code}
-                  </div>
-                  {isCurrent && (
-                    <div className="text-sm text-emerald-400 mt-1 pl-6">→ {line.out}</div>
-                  )}
+                  <Play className="w-4 h-4" />
+                  <span>Step Line</span>
                 </button>
-              );
-            })}
-          </div>
-
-          <RegressionPlane3D
-            beta={activeBeta}
-            points={DEFAULT_DATASET}
-            height={280}
-            caption={
-              includeOnes
-                ? 'With intercept: ŷ = 2.00 + 1.00·x₁ + 2.00·x₂'
-                : `No intercept (origin forced): ŷ = 0 + ${olsNoIntercept.beta[0].toFixed(2)}·x₁ + ${olsNoIntercept.beta[1].toFixed(2)}·x₂`
-            }
-          />
+              </div>
+              {codeLines.map((line, idx) => {
+                const active = idx < step11;
+                const isCurrent = idx === step11 - 1;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setStep11(idx + 1)}
+                    className={`w-full text-left px-3 py-2 rounded transition-colors block cursor-pointer ${
+                      isCurrent
+                        ? 'bg-slate-800 border border-emerald-500'
+                        : active
+                        ? 'hover:bg-slate-800/70 border border-transparent'
+                        : 'opacity-40 hover:opacity-75 border border-transparent'
+                    }`}
+                  >
+                    <div className="text-slate-100">
+                      <span className="text-slate-500 mr-3 select-none">{idx + 1}</span>
+                      {line.code}
+                    </div>
+                    {isCurrent && (
+                      <div className="text-sm text-emerald-400 mt-1 pl-6">→ {line.out}</div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <RegressionPlane3D
+              beta={activeBeta}
+              points={DEFAULT_DATASET}
+              height={440}
+              caption={
+                includeOnes
+                  ? 'With intercept: ŷ = 2.00 + 1.00·x₁ + 2.00·x₂'
+                  : `No intercept (origin forced): ŷ = 0 + ${olsNoIntercept.beta[0].toFixed(2)}·x₁ + ${olsNoIntercept.beta[1].toFixed(2)}·x₂`
+              }
+            />
+          )}
         </div>
       </div>
     );
@@ -137,7 +166,7 @@ export const PythonSlides: React.FC<PythonSlidesProps> = ({ slideIndex }) => {
 
   if (slideIndex === 12) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
         <div className="lg:col-span-4 space-y-6">
           <div className="space-y-2">
             <p className="text-base font-medium text-emerald-700">Statistical Inference</p>
@@ -217,29 +246,26 @@ x2 (Quizzes) 2.0000      1.491   1.342      0.408
     {
       id: 'tp',
       title: 't and p',
-      body: 'Hours: t = 0.67, p ≈ 0.62. Quizzes: t = 1.34, p ≈ 0.41. Neither is significant.',
+      body: 'Hours: t = 0.67, p ≈ 0.62. Quizzes: t = 1.34, p ≈ 0.41.',
     },
     {
       id: 'r2',
       title: 'R² and adj R²',
-      body: '0.911 and 0.733. The gap shows the penalty for extra predictors on tiny n.',
+      body: '0.911 and 0.733. Gap shows penalty on tiny n.',
     },
     {
       id: 'f',
       title: 'F-test',
-      body: 'F = 5.13, p ≈ 0.30. Not significant. Only 1 df is left.',
+      body: 'F = 5.13, p ≈ 0.30. Only 1 df is left.',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+    <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
       <div className="lg:col-span-4 space-y-5">
         <div className="space-y-2">
           <p className="text-base font-medium text-emerald-700">Interpreting Output</p>
           <h2 className="text-4xl font-bold text-slate-900 leading-tight">Reading the Output</h2>
-          <p className="text-base text-slate-600">
-            Click a metric below to spotlight it in the table.
-          </p>
         </div>
 
         <div className="divide-y divide-slate-200 border-t border-b border-slate-200">

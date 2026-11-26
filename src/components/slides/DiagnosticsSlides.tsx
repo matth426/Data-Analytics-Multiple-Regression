@@ -105,7 +105,7 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
 
   if (slideIndex === 14) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
         <div className="lg:col-span-4 space-y-5">
           <div className="space-y-2">
             <p className="text-base font-medium text-emerald-700">Predictor Overlap</p>
@@ -124,7 +124,7 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 font-mono text-base space-y-1 text-slate-900">
+          <div className="font-mono text-base space-y-1 text-slate-900">
             <div>VIFⱼ = 1 / (1 − Rⱼ²)</div>
             <div className="text-emerald-700 font-semibold">Our data: r = 0.80 → VIF = 2.78</div>
           </div>
@@ -227,22 +227,23 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
 
   if (slideIndex === 15) {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
-        <div className="lg:col-span-4 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
+        <div className="lg:col-span-4 space-y-5">
           <div className="space-y-2">
             <p className="text-base font-medium text-emerald-700">Residual Spread</p>
             <h2 className="text-4xl font-bold text-slate-900 leading-tight">Homoscedasticity</h2>
             <p className="text-lg text-slate-600 leading-relaxed">
-              Residual variance is the same for every fitted value: <span className="font-mono text-slate-900">Var(ε) = σ²</span>.
+              &ldquo;Same spread&rdquo;: prediction errors have constant variance across all fitted values{' '}
+              <span className="font-mono text-slate-900">Var(ε) = σ²</span>.
             </p>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 text-base text-slate-700">
-            <div>
-              <strong className="text-emerald-700">β̂ stays unbiased</strong> on average.
+          <div className="divide-y divide-slate-200 border-t border-b border-slate-200 text-base text-slate-700">
+            <div className="py-3">
+              <strong className="text-slate-900">Why it matters:</strong> OLS uses one shared <span className="font-mono text-slate-900">s²</span> to compute all <span className="font-mono text-slate-900">SE(βⱼ)</span>.
             </div>
-            <div>
-              <strong className="text-slate-900">SE, t, and p become unreliable</strong> when variance forms a funnel.
+            <div className="py-3">
+              <strong className="text-emerald-700">If violated (funnel):</strong> <span className="font-mono text-slate-900">β̂</span> stays unbiased, but <span className="font-mono text-slate-900">SE</span>, <span className="font-mono text-slate-900">t</span>, and <span className="font-mono text-slate-900">p</span> become unreliable.
             </div>
           </div>
 
@@ -297,7 +298,7 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
           </div>
         </div>
 
-        <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-white p-6 space-y-4">
+        <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-white p-6 space-y-5">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-semibold text-slate-900">
               {funnel15 ? 'Funnel: Heteroscedastic' : 'Even Band: Homoscedastic'}
@@ -305,10 +306,10 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
             <span className="text-base font-mono text-slate-500">Residuals e vs ŷ</span>
           </div>
 
-          <svg viewBox="0 0 540 320" className="w-full h-auto bg-white">
+          <svg viewBox="0 0 540 285" className="w-full h-auto bg-white">
             {funnel15 ? (
               <polygon
-                points={`36,${160 - 14} 504,${160 - 110 * severity15} 504,${160 + 110 * severity15} 36,${160 + 14}`}
+                points={`36,${140 - 14} 504,${140 - 102 * severity15} 504,${140 + 102 * severity15} 36,${140 + 14}`}
                 fill="rgba(15, 23, 42, 0.04)"
                 stroke="#94A3B8"
                 strokeDasharray="5 4"
@@ -316,9 +317,9 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
             ) : (
               <rect
                 x="36"
-                y="105"
+                y="90"
                 width="468"
-                height="110"
+                height="100"
                 fill="rgba(5, 150, 105, 0.05)"
                 stroke="#059669"
                 strokeOpacity="0.35"
@@ -326,14 +327,14 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
               />
             )}
 
-            <line x1="30" y1="160" x2="510" y2="160" stroke="#0F172A" strokeWidth="2" />
+            <line x1="30" y1="140" x2="510" y2="140" stroke="#0F172A" strokeWidth="2" />
 
             {residPoints15.map((pt, i) => {
               const cx = 46 + pt.t * 448;
-              const cy = 160 - pt.e * 72;
+              const cy = 140 - pt.e * 64;
               return (
                 <g key={i}>
-                  <line x1={cx} y1="160" x2={cx} y2={cy} stroke="#CBD5E1" strokeWidth="1.5" />
+                  <line x1={cx} y1="140" x2={cx} y2={cy} stroke="#CBD5E1" strokeWidth="1.5" />
                   <circle
                     cx={cx}
                     cy={cy}
@@ -346,10 +347,22 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
               );
             })}
 
-            <text x="270" y="302" textAnchor="middle" className="text-[15px] font-mono fill-slate-600">
+            <text x="270" y="272" textAnchor="middle" className="text-[15px] font-mono fill-slate-600">
               Fitted Values ŷ →
             </text>
           </svg>
+
+          <div className="pt-3 border-t border-slate-200 text-base text-slate-700 leading-relaxed">
+            {funnel15 ? (
+              <p>
+                <strong className="text-slate-900">Heteroscedastic (Funnel):</strong> Errors are tight at low ŷ and wide at high ŷ. Averaging them into one s² corrupts SEs, t-tests, and p-values—fix with log(y), WLS, or <span className="font-mono text-slate-900">HC3</span> robust SEs.
+              </p>
+            ) : (
+              <p>
+                <strong className="text-emerald-700">Homoscedastic (Even Band):</strong> Residual spread stays roughly uniform from left to right, so a single constant σ² accurately describes model uncertainty.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -365,21 +378,18 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
     const maxAbsRes = Math.max(1.5, ...ols16.residuals.map((r) => Math.abs(r)));
 
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
         <div className="lg:col-span-4 space-y-5">
           <div className="space-y-2">
             <p className="text-base font-medium text-emerald-700">Automated Checks</p>
             <h2 className="text-4xl font-bold text-slate-900 leading-tight">Diagnostics in Python</h2>
           </div>
 
-          <div className="divide-y divide-slate-200 border-t border-b border-slate-200 text-base text-slate-700">
-            <div className="py-3">
-              <strong className="text-slate-900">Our data (n = 4):</strong> Residuals −1, 1, 1, −1 have equal size; no test has power at n = 4.
-            </div>
-            <div className="py-3">
-              <strong className="text-emerald-700">If it fails:</strong> Transform y (log), use WLS, or report robust SE (<span className="font-mono">HC3</span>).
-            </div>
-          </div>
+          <pre className="rounded-xl border border-slate-200 bg-slate-900 text-slate-100 p-4 font-mono text-xs lg:text-sm leading-6 overflow-x-auto">
+{`[vif(Xc, i) for i in (1, 2)]
+het_breuschpagan(res.resid, Xc)
+sm.OLS(y, Xc).fit(cov_type="HC3")`}
+          </pre>
 
           <div className="space-y-3">
             <div className="flex items-center gap-1 p-1 border border-slate-200 rounded-lg bg-slate-50 w-fit">
@@ -421,86 +431,80 @@ export const DiagnosticsSlides: React.FC<DiagnosticsSlidesProps> = ({ slideIndex
                       : 'border-slate-200 bg-white text-slate-800'
                   }`}
                 >
-                  {useHC3 ? 'cov_type="HC3" ON' : 'Use cov_type="HC3"'}
+                  {useHC3 ? 'cov_type="HC3" ON' : 'Use HC3 SE'}
                 </button>
               </div>
             )}
           </div>
+
+          <p className="text-base text-slate-600 leading-relaxed">
+            If heteroscedasticity fails: transform y (log), use WLS, or report robust <span className="font-mono text-slate-900">HC3</span> standard errors.
+          </p>
         </div>
 
-        <div className="lg:col-span-6 space-y-5">
-          <pre className="rounded-xl border border-slate-200 bg-slate-900 text-slate-100 p-5 font-mono text-sm leading-6 overflow-x-auto">
-{`from statsmodels.stats.outliers_influence import variance_inflation_factor as vif
-from statsmodels.stats.diagnostic import het_breuschpagan
-[vif(Xc, i) for i in (1, 2)]  # [${ols16.vif1.toFixed(2)}, ${ols16.vif2.toFixed(2)}]
-lm, lm_p, f, f_p = het_breuschpagan(res.resid, Xc)
-sm.OLS(y, Xc).fit(cov_type="HC3")  # robust SE fix`}
-          </pre>
-
-          <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-4">
-            <div className="grid grid-cols-3 gap-4 font-mono text-base tabular-nums border-b border-slate-200 pb-4">
-              <div>
-                <div className="text-sm text-slate-500">VIF</div>
-                <div className="font-bold text-slate-900">{ols16.vif1.toFixed(2)}</div>
-              </div>
-              <div>
-                <div className="text-sm text-slate-500">BP LM Stat</div>
-                <div className="font-bold text-slate-900">{bp16.lm.toFixed(2)}</div>
-              </div>
-              <div>
-                <div className="text-sm text-slate-500">BP p-value</div>
-                <div className={`font-bold ${bp16.pValue < 0.05 ? 'text-emerald-700' : 'text-slate-900'}`}>
-                  {bp16.pValue.toFixed(4)} {bp16.pValue < 0.05 ? '(Hetero)' : '(OK)'}
-                </div>
+        <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-white p-6 space-y-5">
+          <div className="grid grid-cols-3 gap-4 font-mono text-base tabular-nums border-b border-slate-200 pb-4">
+            <div>
+              <div className="text-sm text-slate-500">VIF</div>
+              <div className="font-bold text-slate-900">{ols16.vif1.toFixed(2)}</div>
+            </div>
+            <div>
+              <div className="text-sm text-slate-500">BP Stat</div>
+              <div className="font-bold text-slate-900">{bp16.lm.toFixed(2)}</div>
+            </div>
+            <div>
+              <div className="text-sm text-slate-500">BP p-value</div>
+              <div className={`font-bold ${bp16.pValue < 0.05 ? 'text-emerald-700' : 'text-slate-900'}`}>
+                {bp16.pValue.toFixed(4)} {bp16.pValue < 0.05 ? '(Hetero)' : '(OK)'}
               </div>
             </div>
-
-            <svg viewBox="0 0 460 150" className="w-full h-auto bg-white">
-              <line x1="28" y1="75" x2="436" y2="75" stroke="#0F172A" strokeWidth="1.5" strokeDasharray="4 4" />
-              {ols16.yHat.map((yh, i) => {
-                const cx = 42 + ((yh - minFit) / Math.max(1e-3, maxFit - minFit)) * 380;
-                const cy = 75 - (ols16.residuals[i] / maxAbsRes) * 56;
-                return (
-                  <circle
-                    key={i}
-                    cx={cx}
-                    cy={cy}
-                    r={useRealData16 ? 4.5 : 6.5}
-                    fill="#059669"
-                    opacity="0.85"
-                  />
-                );
-              })}
-              <text x="230" y="142" textAnchor="middle" className="text-[13px] font-mono fill-slate-500">
-                res.fittedvalues vs res.resid
-              </text>
-            </svg>
-
-            <table className="w-full text-left font-mono text-sm lg:text-base tabular-nums border-t border-slate-200">
-              <thead className="text-slate-500 border-b border-slate-200">
-                <tr>
-                  <th className="py-2">Term</th>
-                  <th className="py-2 text-right">coef</th>
-                  <th className="py-2 text-right">{useHC3 ? 'HC3 SE' : 'OLS SE'}</th>
-                  <th className="py-2 text-right">t (p)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {['const', 'Hours', 'Quizzes'].map((label, idx) => (
-                  <tr key={label}>
-                    <td className="py-2 text-slate-900">{label}</td>
-                    <td className="py-2 text-right font-semibold text-slate-900">{ols16.beta[idx].toFixed(2)}</td>
-                    <td className={`py-2 text-right font-semibold ${useHC3 ? 'text-emerald-700' : 'text-slate-700'}`}>
-                      {activeSE[idx].toFixed(3)}
-                    </td>
-                    <td className="py-2 text-right text-slate-600">
-                      {activeT[idx].toFixed(2)} ({activeP[idx].toFixed(3)})
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
+
+          <svg viewBox="0 0 460 165" className="w-full h-auto bg-white">
+            <line x1="28" y1="82" x2="436" y2="82" stroke="#0F172A" strokeWidth="1.5" strokeDasharray="4 4" />
+            {ols16.yHat.map((yh, i) => {
+              const cx = 42 + ((yh - minFit) / Math.max(1e-3, maxFit - minFit)) * 380;
+              const cy = 82 - (ols16.residuals[i] / maxAbsRes) * 62;
+              return (
+                <circle
+                  key={i}
+                  cx={cx}
+                  cy={cy}
+                  r={useRealData16 ? 5 : 7}
+                  fill="#059669"
+                  opacity="0.85"
+                />
+              );
+            })}
+            <text x="230" y="156" textAnchor="middle" className="text-[14px] font-mono fill-slate-500">
+              res.fittedvalues vs res.resid
+            </text>
+          </svg>
+
+          <table className="w-full text-left font-mono text-base tabular-nums border-t border-slate-200">
+            <thead className="text-slate-500 border-b border-slate-200 text-sm">
+              <tr>
+                <th className="py-2.5">Term</th>
+                <th className="py-2.5 text-right">coef</th>
+                <th className="py-2.5 text-right">{useHC3 ? 'HC3 SE' : 'OLS SE'}</th>
+                <th className="py-2.5 text-right">t (p)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {['const', 'Hours', 'Quizzes'].map((label, idx) => (
+                <tr key={label}>
+                  <td className="py-2.5 text-slate-900">{label}</td>
+                  <td className="py-2.5 text-right font-semibold text-slate-900">{ols16.beta[idx].toFixed(2)}</td>
+                  <td className={`py-2.5 text-right font-semibold ${useHC3 ? 'text-emerald-700' : 'text-slate-700'}`}>
+                    {activeSE[idx].toFixed(3)}
+                  </td>
+                  <td className="py-2.5 text-right text-slate-600">
+                    {activeT[idx].toFixed(2)} ({activeP[idx].toFixed(3)})
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );
@@ -511,7 +515,7 @@ sm.OLS(y, Xc).fit(cov_type="HC3")  # robust SE fix`}
     yValues17[3] === 14 && yValues17[0] === 4 && yValues17[1] === 11 && yValues17[2] === 10;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-10 gap-10 items-start py-2">
+    <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-start py-2">
       <div className="lg:col-span-4 space-y-6">
         <div className="space-y-2">
           <p className="text-base font-medium text-emerald-700">Summary & Exercise</p>
@@ -523,10 +527,10 @@ sm.OLS(y, Xc).fit(cov_type="HC3")  # robust SE fix`}
             <strong className="text-slate-900">Multicollinearity:</strong> Correlated x inflates SE. Check VIF.
           </div>
           <div className="py-3">
-            <strong className="text-slate-900">Overfitting:</strong> n = 4 with 3 parameters leaves 1 df. Use Adj R².
+            <strong className="text-slate-900">Overfitting:</strong> n = 4 leaves 1 df. Use Adj R².
           </div>
           <div className="py-3">
-            <strong className="text-slate-900">Causation:</strong> Coefficients show association, not cause.
+            <strong className="text-slate-900">Causation:</strong> Association, not cause.
           </div>
         </div>
 

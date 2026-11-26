@@ -1,6 +1,8 @@
-# IT365 — Data Analytics 1: Multiple Regression Analysis (Lesson 7)
+# IT365 — Data Analytics 1: Multiple Regression Analysis (Lesson 8)
 
 Interactive, animated 17-slide lecture presentation covering Multiple Regression Analysis — from linear algebra by hand (`(XᵀX)⁻¹ Xᵀy`) to Python (`sklearn`, `NumPy`, `statsmodels`) and regression diagnostics (`VIF`, Breusch–Pagan, `HC3`).
+
+> **Disclaimer:** AI was used to generate this web page; the lesson content and slides were created by **Mattheus Marcus Contreras**.
 
 ## Publish as a Web Page with GitHub Pages
 
@@ -9,7 +11,7 @@ Interactive, animated 17-slide lecture presentation covering Multiple Regression
    ```bash
    git init
    git add .
-   git commit -m "Add IT365 Lesson 7 interactive slides"
+   git commit -m "Add IT365 Lesson 8 interactive slides"
    git branch -M main
    git remote add origin https://github.com/<your-username>/<your-repo>.git
    git push -u origin main

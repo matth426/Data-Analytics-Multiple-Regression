@@ -25,7 +25,7 @@ export const IntroSlides: React.FC<IntroSlideProps> = ({ slideIndex, goToSlide }
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-12 items-center py-6">
         <div className="lg:col-span-4 space-y-6">
           <div className="text-base font-medium text-emerald-700">
-            IT365 — Data Analytics 1 · Lesson 7
+            IT365 — Data Analytics 1 · Lesson 8
           </div>
 
           <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.08]">
@@ -37,11 +37,16 @@ export const IntroSlides: React.FC<IntroSlideProps> = ({ slideIndex, goToSlide }
             <span className="font-mono text-slate-900">statsmodels</span>.
           </p>
 
-          <div className="pt-2 text-base text-slate-500">
-            Mattheus Marcus Contreras
+          <div className="pt-2 space-y-1.5">
+            <div className="text-base font-medium text-slate-800">
+              Mattheus Marcus Contreras
+            </div>
+            <p className="text-sm text-slate-500 leading-relaxed">
+              Disclaimer: AI was used to generate this interactive page; the lesson content and slides were created by Mattheus Marcus Contreras.
+            </p>
           </div>
 
-          <div className="pt-4">
+          <div className="pt-2">
             <button
               type="button"
               onClick={() => goToSlide(2)}

@@ -27,7 +27,7 @@ export const SLIDES: SlideMeta[] = [
     subtitle: 'Linear algebra by hand, then sklearn and statsmodels',
     discussionPrompt: 'Ask students what happens when one predictor is not enough to explain an outcome.',
     lectureNotes: [
-      'Course: IT365 - Data Analytics 1, Lesson 7 (Mattheus Marcus Contreras).',
+      'Course: IT365 - Data Analytics 1, Lesson 8 (Mattheus Marcus Contreras).',
       'Road map: We start with geometric intuition, solve a small 4-student dataset completely by hand using matrix algebra, verify it in Python, and finish with diagnostics.',
       'Drag the 3D regression plane on the right to preview how two predictors tilt a flat surface through data.',
     ],
@@ -37,7 +37,7 @@ export const SLIDES: SlideMeta[] = [
     chapter: 'overview',
     chapterLabel: 'Overview',
     title: 'Learning Objectives',
-    subtitle: 'Five core skills you will master by the end of Lesson 7',
+    subtitle: 'Five core skills you will master by the end of Lesson 8',
     discussionPrompt: 'Click any objective to jump directly to its interactive demonstration.',
     lectureNotes: [
       'Highlight the arc from theory (matrix form) to manual computation (exact β̂) to software fluency (sklearn vs statsmodels).',
