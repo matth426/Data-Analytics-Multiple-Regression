@@ -246,13 +246,13 @@ export default function App() {
                     <div className="text-xs text-slate-500 mt-0.5">All 17 Lesson 8 slides, single file</div>
                   </button>
                   <a
-                    href="./assets/aistudio/IT365_Lesson_Multiple_Regression_Analysis_8f54a72b.pdf"
+                    href="./assets/IT365_Lesson8_Multiple_Regression.pdf"
                     download="IT365_Lesson8_Multiple_Regression.pdf"
                     onClick={() => setDownloadOpen(false)}
                     className="block w-full text-left px-4 py-2.5 text-sm text-slate-800 hover:bg-slate-50 border-t border-slate-100 transition-colors"
                   >
                     <div className="font-semibold text-slate-900">Lecture Slides (.pdf)</div>
-                    <div className="text-xs text-slate-500 mt-0.5">Download original PDF deck</div>
+                    <div className="text-xs text-slate-500 mt-0.5">All 17 Lesson 8 slides (16:9 PDF)</div>
                   </a>
                 </div>
               )}

@@ -34,3 +34,10 @@ npm run dev
 - `N`: Toggle instructor discussion notes
 - `G`: Open slide overview grid
 - **Present** button: Enter fullscreen mode
+- **Download** button: Export all 17 slides as a standalone `.html` file or the Lesson 8 `.pdf` deck (`public/assets/IT365_Lesson8_Multiple_Regression.pdf`)
+
+## Regenerate the PDF Slides
+
+```bash
+npx tsx scripts/generate-pdf.ts
+```
