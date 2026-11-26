@@ -1,0 +1,6 @@
+{
+  "name": "IT365 Lesson 7: Multiple Regression Analysis",
+  "description": "Interactive animated lecture slides and live linear algebra, Python, and diagnostics demonstrations for Multiple Regression Analysis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
